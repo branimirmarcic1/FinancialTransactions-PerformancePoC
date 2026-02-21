@@ -22,7 +22,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             entity.ToTable("Transactions");
             entity.HasKey(e => e.Id); // EF Core automatski kreira Clustered Index na PK
 
-            // HasColumnType sada radi jer imamo Microsoft.EntityFrameworkCore.SqlServer paket
             entity.Property(e => e.Amount).HasColumnType("decimal(18,2)");
             entity.Property(e => e.Status).HasMaxLength(20);
             entity.Property(e => e.Description).HasMaxLength(255);

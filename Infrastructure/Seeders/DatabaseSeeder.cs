@@ -13,14 +13,12 @@ public class DatabaseSeeder
 
     public DatabaseSeeder(IConfiguration configuration)
     {
-        // Povlačimo connection string direktno iz API-ja
         _connectionString = configuration.GetConnectionString("DefaultConnection")
                             ?? throw new ArgumentNullException("Connection string is missing!");
     }
 
     public async Task SeedOneMillionTransactionsAsync()
     {
-        // 1. Provjera ima li već podataka (da ne punimo bazu dvaput)
         using var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync();
         using var checkCommand = new SqlCommand("SELECT COUNT(*) FROM Transactions", connection);
@@ -56,7 +54,7 @@ public class DatabaseSeeder
 
             using var bulkCopy = new SqlBulkCopy(connection);
             bulkCopy.DestinationTableName = "Transactions";
-            bulkCopy.BulkCopyTimeout = 120; // Dajemo mu malo više vremena
+            bulkCopy.BulkCopyTimeout = 120;
 
             // Mapiranje kolona (osigurava da se C# propertiji točno poklope sa SQL kolonama)
             bulkCopy.ColumnMappings.Add(nameof(Transaction.CustomerId), "CustomerId");

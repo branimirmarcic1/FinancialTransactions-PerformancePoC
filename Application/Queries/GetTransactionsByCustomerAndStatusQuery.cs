@@ -21,7 +21,6 @@ public class GetTransactionsByCustomerAndStatusHandler : IRequestHandler<GetTran
     {
         var stopwatch = Stopwatch.StartNew();
 
-        // Ovdje sada filtriramo po DVIJE kolone (AND)
         var transactions = await _context.Transactions
             .AsNoTracking()
             .Where(t => t.CustomerId == request.CustomerId && t.Status == request.Status)
